@@ -1,12 +1,27 @@
 version: '3'
 services:
-  app:
+  web:
     build:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - '8080:8181'
+      - 8080:8181
     volumes:
-      - /app/node_modules
-      - /app/vendor
-      - ./:/app
+      - ./:/var/www
+    links:
+      - db
+    environment:
+      DB_HOST: db
+      DB_DATABASE: test_db
+      DB_USERNAME: laraveluser
+      DB_PASSWORD: p455w0rd
+      DB_CONNECTION: mysql
+  db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: laraveluser
+      MYSQL_PASSWORD: p455w0rd
+      MYSQL_ROOT_USER: ugat_user
+      MYSQL_ROOT_PASSWORD: ugat_p455w0rd
+
