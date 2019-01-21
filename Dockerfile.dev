@@ -1,12 +1,12 @@
-FROM hitalos/laravel:latest
+# FROM php:7.3-fpm-alpine
+FROM hitalos/php:latest
 
-WORKDIR '/var/www'
+WORKDIR /var/www
+COPY ./ ./
 
-COPY . .
+RUN composer update
 
-RUN composer install
-RUN npm install
-
-# CMD ["php" "artisan" "serve" "--host=0.0.0.0" "--port=8181"]
-CMD ["php" "-S" "0.0.0.0:80" "-t" "public" "public/index.php"]
+CMD php artisan key:generate && php artisan serve --host=0.0.0.0 --port=8181
 EXPOSE 8181
+
+# HEALTHCHECK --interval=1m CMD curl -f http://localhost/ || exit 1

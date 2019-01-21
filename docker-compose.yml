@@ -4,20 +4,25 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    environment: 
+      APP_NAME: laravel
+      APP_ENV: local
+      APP_DEBUG: 'true'
+      APP_URL: 'http://localhost'
+      LOG_CHANNEL: stack
+      DB_HOST: db
+      DB_DATABASE: test_db
+      DB_USERNAME: laraveluser
+      DB_PASSWORD: p455w0rd
+      DB_CONNECTION: mysql
     ports:
       - 8080:8181
     volumes:
       - ./:/var/www
     links:
       - db
-    environment:
-      DB_HOST: db
-      DB_DATABASE: test_db
-      DB_USERNAME: laraveluser
-      DB_PASSWORD: p455w0rd
-      DB_CONNECTION: mysql
   db:
-    image: mysql
+    image: mysql:5.6.40
     environment:
       MYSQL_DATABASE: test_db
       MYSQL_USER: laraveluser
